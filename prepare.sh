@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 apt-get install -y python \
                    python-pip \
