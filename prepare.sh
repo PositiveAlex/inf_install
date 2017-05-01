@@ -25,5 +25,17 @@ apt-get install -y docker-ce docker-compose
 docker run hello-world
 
 export DDOMAIN_NAME=$1
+export MAIL_USER=$2
+export MAIL_PASS=$3
+
+mkdir -p config
+touch config/postfix-accounts.cf
+docker run --rm \
+  -e MAIL_USER=$MAIL_USER \
+  -e MAIL_PASS=$MAIL_PASS \
+  -ti tvial/docker-mailserver:latest \
+  /bin/sh -c 'echo "$MAIL_USER|$(doveadm pw -s SHA512-CRYPT -u $MAIL_USER -p $MAIL_PASS)"' > config/postfix-accounts.cf
+
 export COMPOSE_FILE=./docker-mailserver/docker-compose.yml
+
 docker-compose up
