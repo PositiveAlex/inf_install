@@ -43,3 +43,5 @@ docker run --rm \
 export COMPOSE_FILE=./docker-mailserver/docker-compose.yml
 
 docker-compose up -d mail
+
+exit 0
