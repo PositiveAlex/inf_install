@@ -23,3 +23,7 @@ add-apt-repository \
 apt-get update
 apt-get install -y docker-ce
 docker run hello-world
+
+export DDOMAIN_NAME=$1
+export COMPOSE_FILE=./docker-mailserver/docker-compose.yml
+docker-compose up
