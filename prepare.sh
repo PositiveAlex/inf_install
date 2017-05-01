@@ -21,7 +21,7 @@ add-apt-repository \
    stable"
 
 apt-get update
-apt-get install -y docker-ce
+apt-get install -y docker-ce docker-compose
 docker run hello-world
 
 export DDOMAIN_NAME=$1
