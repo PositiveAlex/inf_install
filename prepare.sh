@@ -36,6 +36,10 @@ docker run --rm \
   -ti tvial/docker-mailserver:latest \
   /bin/sh -c 'echo "$MAIL_USER|$(doveadm pw -s SHA512-CRYPT -u $MAIL_USER -p $MAIL_PASS)"' > ./docker-mailserver/config/postfix-accounts.cf
 
+docker run --rm \
+  -v "$(pwd)/docker-mailserver/config":/tmp/docker-mailserver \
+  -ti tvial/docker-mailserver:latest generate-dkim-config
+
 export COMPOSE_FILE=./docker-mailserver/docker-compose.yml
 
-docker-compose up
+docker-compose up -d mail
