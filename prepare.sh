@@ -28,8 +28,8 @@ export DDOMAIN_NAME=$1
 export MAIL_USER=$2
 export MAIL_PASS=$3
 
-mkdir -p config
-touch config/postfix-accounts.cf
+mkdir -p ./docker-mailserver/config
+touch ./docker-mailserver/config/postfix-accounts.cf
 docker run --rm \
   -e MAIL_USER=$MAIL_USER \
   -e MAIL_PASS=$MAIL_PASS \
