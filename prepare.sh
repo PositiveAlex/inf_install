@@ -3,6 +3,13 @@
 # Docker installation scrtip from the official doc at: 
 # https://docs.docker.com/engine/installation/linux/ubuntu/#install-using-the-repository
 
+export PROJECT_PATH=$1
+export DDOMAIN_NAME=$2
+export MAIL_USER=$3
+export MAIL_PASS=$4
+
+rm -rf $PROJECT_PATH/docker-mailserver/config
+
 apt-get install -y python \
                    python-pip \
                    apt-transport-https \
@@ -24,23 +31,20 @@ apt-get update
 apt-get install -y docker-ce docker-compose
 docker run hello-world
 
-export DDOMAIN_NAME=$1
-export MAIL_USER=$2
-export MAIL_PASS=$3
 
-mkdir -p ./docker-mailserver/config
-touch ./docker-mailserver/config/postfix-accounts.cf
+mkdir -p $PROJECT_PATH/docker-mailserver/config
+touch $PROJECT_PATH/docker-mailserver/config/postfix-accounts.cf
 docker run --rm \
   -e MAIL_USER=$MAIL_USER \
   -e MAIL_PASS=$MAIL_PASS \
   -ti tvial/docker-mailserver:latest \
-  /bin/sh -c 'echo "$MAIL_USER|$(doveadm pw -s SHA512-CRYPT -u $MAIL_USER -p $MAIL_PASS)"' > ./docker-mailserver/config/postfix-accounts.cf
+  /bin/sh -c 'echo "$MAIL_USER|$(doveadm pw -s SHA512-CRYPT -u $MAIL_USER -p $MAIL_PASS)"' > $PROJECT_PATH/docker-mailserver/config/postfix-accounts.cf
 
 docker run --rm \
-  -v "$(pwd)/docker-mailserver/config":/tmp/docker-mailserver \
+  -v "$PROJECT_PATH/docker-mailserver/config":/tmp/docker-mailserver \
   -ti tvial/docker-mailserver:latest generate-dkim-config
 
-export COMPOSE_FILE=./docker-mailserver/docker-compose.yml
+export COMPOSE_FILE=$PROJECT_PATH/docker-mailserver/docker-compose.yml
 
 docker-compose up -d mail
 
