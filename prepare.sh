@@ -10,18 +10,22 @@ export MAIL_PASS=$4
 
 if [ -n $PROJECT_PATH ]; then
   echo "provide project."
+  exit 1
 fi
 
 if [ -n $DDOMAIN_NAME ]; then
-  echo "provide project."
+  echo "provide domain name."
+  exit 1
 fi
 
 if [ -n $MAIL_USER ]; then
-  echo "provide project."
+  echo "provide user account."
+  exit 1
 fi
 
 if [ -n $MAIL_PASS ]; then
-  echo "provide project."
+  echo "provide user password."
+  exit 1
 fi
 
 rm -rf $PROJECT_PATH/docker-mailserver/config
